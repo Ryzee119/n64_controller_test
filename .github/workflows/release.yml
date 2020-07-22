@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BUILD_TAG: 0
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build Project
+      uses: actions/checkout@v2
+    - run: |
+           export BUILD_TAG=build-$(date -u +'%Y%m%d%H%M')
+           echo "::set-env name=BUILD_TAG::$BUILD_TAG"
+           sudo apt-get install npm
+           sudo npm install -g libdragon
+           sudo libdragon download
+           sudo libdragon start
+           sudo libdragon make
+    - name: Create Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: ${{ env.BUILD_TAG }}
+        prerelease: false
+        files: |
+            LICENSE
+            *.z64
