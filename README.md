@@ -16,3 +16,10 @@ libdragon start
 libdragon make
 ```
 This should produce a `.z64` rom file.
+
+## Images
+![page 1](https://github.com/Ryzee119/n64_controller_test/blob/master/images/page1.jpg?raw=true)
+
+![page 2](https://github.com/Ryzee119/n64_controller_test/blob/master/images/page2.jpg?raw=true)
+
+![page 3](https://github.com/Ryzee119/n64_controller_test/blob/master/images/page3.jpg?raw=true)
