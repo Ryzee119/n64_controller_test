@@ -200,26 +200,29 @@ void draw_page_2(display_context_t disp)
     for (int i = 0; i < sizeof(read_packet); i++)
     {
         sprintf(text_buff, "%02x", read_packet[i]);
-        graphics_draw_coloured_text(disp, COL((2 * i) % (16 * 2) + 1), ROW(READ_PAK_PACKET + i / 16), text_buff, COLOUR_BLUE);
+        graphics_draw_coloured_text(disp, COL((2 * i) % (16 * 2) + 1),
+                                    ROW(READ_PAK_PACKET + i / 16), text_buff, COLOUR_BLUE);
     }
     graphics_draw_coloured_text(disp, COL(1), ROW(READ_PAK_RESULT), "RESULT: ", COLOUR_BLUE);
 
     /* WRITE PAK TEST */
-    graphics_draw_coloured_text(disp, COL(1), ROW(WRITE_PAK_WARNING), "WARNING CORRUPTION MAY OCCUR", COLOUR_RED);
+    graphics_draw_coloured_text(disp, COL(1), ROW(WRITE_PAK_WARNING),
+                                "WARNING CORRUPTION MAY OCCUR", COLOUR_RED);
 
     sprintf(text_buff, "WRITE PACKET TO: 0x%04x", write_address);
     graphics_draw_coloured_text(disp, COL(1), ROW(WRITE_PAK_ADDRESS), text_buff, COLOUR_WHITE);
     for (int i = 0; i < 32; i++)
     {
         sprintf(text_buff, "%02x", write_packet[i]);
-        graphics_draw_coloured_text(disp, COL((2 * i) % (16 * 2) + 1), ROW(WRITE_PAK_PACKET + i / 16), text_buff, COLOUR_BLUE);
+        graphics_draw_coloured_text(disp, COL((2 * i) % (16 * 2) + 1),
+                                    ROW(WRITE_PAK_PACKET + i / 16), text_buff, COLOUR_BLUE);
     }
     graphics_draw_coloured_text(disp, COL(1), ROW(WRITE_PAK_RANDOM), "RANDOM", COLOUR_WHITE);
     graphics_draw_coloured_text(disp, COL(1), ROW(WRITE_PAK_RESULT), "RESULT: ", COLOUR_BLUE);
 
     /* Move or Draw Cursor */
     struct controller_data keys_down = get_keys_down();
-    static const int valid_rows[] = {
+    static const int valid_cursor_rows[] = {
         READ_PAK_ADDRESS,
         WRITE_PAK_RANDOM,
         WRITE_PAK_ADDRESS};
@@ -230,10 +233,11 @@ void draw_page_2(display_context_t disp)
         //Adjusting cursor position
         if (keys_down.c[c].up && cursor_row > 0)
             cursor_row--;
-        if (keys_down.c[c].down && cursor_row < (sizeof(valid_rows) / sizeof(valid_rows[0]) - 1))
+        if (keys_down.c[c].down && cursor_row < (sizeof(valid_cursor_rows) /
+                                                 sizeof(valid_cursor_rows[0]) - 1))
            cursor_row++;
 
-        if(valid_rows[cursor_row] == READ_PAK_ADDRESS)
+        if(valid_cursor_rows[cursor_row] == READ_PAK_ADDRESS)
         {
             unsigned short old_address = read_address;
             if(keys_down.c[c].A)      read_address += sizeof(read_packet);
@@ -241,7 +245,7 @@ void draw_page_2(display_context_t disp)
             if(keys_down.c[c].C_up)   read_address += sizeof(read_packet) * 10;
             if(keys_down.c[c].C_down) read_address -= sizeof(read_packet) * 10;
 
-            //clear the write status if the address has changed
+            //clear the read status if the address has changed
             if(read_address != old_address)
                 read_status = 1; 
 
@@ -251,7 +255,7 @@ void draw_page_2(display_context_t disp)
         }
 
         //Selected WRITE_PAK_ADDRESS row with A, B, C-up, C-down or START
-        if(valid_rows[cursor_row] == WRITE_PAK_ADDRESS)
+        if(valid_cursor_rows[cursor_row] == WRITE_PAK_ADDRESS)
         {
             unsigned short old_address = write_address;
             if(keys_down.c[c].A)      write_address += 0x20;
@@ -268,13 +272,13 @@ void draw_page_2(display_context_t disp)
         }
 
         //Selected GEN_RANDOM row with A
-        if(valid_rows[cursor_row] == WRITE_PAK_RANDOM && keys_down.c[c].A)
+        if(valid_cursor_rows[cursor_row] == WRITE_PAK_RANDOM && keys_down.c[c].A)
             for (int i = 0; i < sizeof(write_packet); i++)
                 write_packet[i] = rand() % 256;
     }
 
     /* Print the row coursor */
-    graphics_draw_coloured_text(disp, COL(0), ROW(valid_rows[cursor_row]), ">", COLOUR_GREEN);
+    graphics_draw_coloured_text(disp, COL(0), ROW(valid_cursor_rows[cursor_row]), ">", COLOUR_GREEN);
 
     /* Print the read status for a mempak read */
     switch (read_status)
