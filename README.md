@@ -1,14 +1,14 @@
 # USB64
 ![Release](https://github.com/Ryzee119/n64_controller_test/workflows/Release/badge.svg)
  
-A simple homebrew N64 rom made to perform some basic N64 controller tests.  
-This was inspired and used by my [usb64](https://github.com/Ryzee119/usb64) project.  
+A simple homebrew N64 rom to perform some basic N64 controller tests.  
 **WARNING: This has the potential the corrupt your saved games. Use with caution.**
 
 ## Download
 You can download a precompiled binary from the [release section](https://github.com/Ryzee119/n64_controller_test/releases).
+
 ## Build
-Building uses the opensource N64 toolchain [libdragon](https://github.com/DragonMinded/libdragon).  
+This was developed using the opensource N64 toolchain [libdragon](https://github.com/DragonMinded/libdragon).  
 I built using a docker container. The build process is something like this:
 ```
 apt-get install npm docker.io
