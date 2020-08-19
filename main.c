@@ -354,7 +354,7 @@ void draw_page_3(display_context_t disp)
                                                 "GB CART HEADER INVALID", COLOUR_RED);
                     break;
                 }
-                sprintf(text_buff, "INSTALLED CART: %s", gb_header.title);
+                sprintf(text_buff, "INSTALLED CART: %.15s", gb_header.title);
                 graphics_draw_coloured_text(disp, COL(0), ROW(5 + 1 + c * 3), text_buff, COLOUR_GREEN);
                 break;
         }
