@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Build Project
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - run: |
            export BUILD_TAG=build-$(date -u +'%Y%m%d%H%M')
            echo "::set-env name=BUILD_TAG::$BUILD_TAG"
