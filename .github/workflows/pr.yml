@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v24
     - run: ls
     - run: sudo apt-get install npm
     - run: sudo npm install -g libdragon
